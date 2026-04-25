@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import recipeRoutes from './routes/recipeRoutes.js';
+import mealPlanRoutes from './routes/mealPlanRoutes.js';
 
 dotenv.config();
 
@@ -11,6 +12,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/api/recipes', recipeRoutes);
+app.use('/api/mealplans', mealPlanRoutes);
+
 
 app.get('/', (req, res) => {
   res.send('API is running...');

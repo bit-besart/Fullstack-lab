@@ -1,121 +1,136 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useEffect, useState } from 'react';
+import './App.css';
+import RecipeForm from './components/RecipeForm';
+import RecipeList from './components/RecipeList';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [editingRecipe, setEditingRecipe] = useState(null);
+
+  const filteredRecipes = recipes.filter((recipe) =>
+    recipe.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    recipe.mealType.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  useEffect(() => {
+    async function fetchRecipes() {
+      try {
+        const res = await fetch('/api/recipes');
+
+        if (!res.ok) {
+          throw new Error('Failed to fetch recipes');
+        }
+
+        const data = await res.json();
+        setRecipes(data);
+        setError('');
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    }
+
+    fetchRecipes();
+
+    const intervalId = setInterval(fetchRecipes, 5000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  function handleRecipeAdded(newRecipe) {
+    setRecipes((prevRecipes) => [...prevRecipes, newRecipe]);
+  }
+
+  function handleEditRecipe(recipe) {
+    setEditingRecipe(recipe);
+  }
+
+  async function handleRecipeUpdated(updatedRecipe) {
+    try {
+      const res = await fetch(`/api/recipes/${updatedRecipe._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedRecipe)
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to update recipe');
+      }
+
+      const savedRecipe = await res.json();
+
+      setRecipes((prevRecipes) =>
+        prevRecipes.map((recipe) =>
+          recipe._id === savedRecipe._id ? savedRecipe : recipe
+        )
+      );
+
+      setEditingRecipe(null);
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  async function handleDeleteRecipe(id) {
+    const confirmed = window.confirm('Delete recipe: Are you sure?');
+
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch(`/api/recipes/${id}`, {
+        method: 'DELETE'
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to delete recipe');
+      }
+
+      setRecipes((prevRecipes) =>
+        prevRecipes.filter((recipe) => recipe._id !== id)
+      );
+    } catch (err) {
+      setError(err.message);
+    }
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app">
+      <h1>Vegan Recipe Planner</h1>
+      <br></br>
+      <p>Simple meal planning app for vegan recipes.</p>
 
-      <div className="ticks"></div>
+      <RecipeForm
+        onRecipeAdded={handleRecipeAdded}
+        onRecipeUpdated={handleRecipeUpdated}
+        editingRecipe={editingRecipe}
+      />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <input
+        className="search-input"
+        type="text"
+        placeholder="Search by title or meal type"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {loading && <p>Loading recipes...</p>}
+      {error && <p>{error}</p>}
+
+      {!loading && !error && (
+        <RecipeList
+          recipes={filteredRecipes}
+          onDeleteRecipe={handleDeleteRecipe}
+          onEditRecipe={handleEditRecipe}
+        />
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
