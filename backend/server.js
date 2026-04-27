@@ -4,6 +4,9 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import recipeRoutes from './routes/recipeRoutes.js';
 import mealPlanRoutes from './routes/mealPlanRoutes.js';
+import './models/User.js';
+import './models/Recipe.js';
+import './models/MealPlan.js';
 
 dotenv.config();
 

@@ -2,10 +2,16 @@ import Recipe from '../models/Recipe.js';
 
 export const getAllRecipes = async (req, res) => {
   try {
-    const recipes = await Recipe.find();
+    const filter = {};
+
+    if (req.query.mealType) {
+      filter.mealType = req.query.mealType;
+    }
+
+    const recipes = await Recipe.find(filter);
     res.status(200).json(recipes);
   } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch recipes' });
+    res.status(500).json({ message: 'Failed to fetch recipes', error: error.message });
   }
 };
 
@@ -19,7 +25,7 @@ export const getRecipeById = async (req, res) => {
 
     res.status(200).json(recipe);
   } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch recipe' });
+    res.status(500).json({ message: 'Failed to fetch recipe', error: error.message });
   }
 };
 

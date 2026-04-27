@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function RecipeItem({ recipe, onDeleteRecipe, onEditRecipe }) {
+function RecipeItem({ recipe, onDeleteRecipe, onEditRecipe, onAddToMealPlan }) {
   const [showRecipe, setShowRecipe] = useState(false);
 
   return (
@@ -14,6 +14,7 @@ function RecipeItem({ recipe, onDeleteRecipe, onEditRecipe }) {
           </button>
           <button onClick={() => onEditRecipe(recipe)}>Edit</button>
           <button onClick={() => onDeleteRecipe(recipe._id)}>Delete</button>
+          <button onClick={() => onAddToMealPlan(recipe)}>Add to Meal Plan</button>
         </div>
 
         {showRecipe && (

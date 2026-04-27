@@ -22,3 +22,4 @@ const mealPlanSchema = new mongoose.Schema({
 });
 
 export default mongoose.model('MealPlan', mealPlanSchema);
+

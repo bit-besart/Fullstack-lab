@@ -1,6 +1,6 @@
 import RecipeItem from './RecipeItem';
 
-function RecipeList({ recipes, onDeleteRecipe, onEditRecipe }) {
+function RecipeList({ recipes, onDeleteRecipe, onEditRecipe, onAddToMealPlan }) {
   return (
     <ul className="recipe-list">
       {recipes.map((recipe) => (
@@ -9,6 +9,7 @@ function RecipeList({ recipes, onDeleteRecipe, onEditRecipe }) {
           recipe={recipe}
           onDeleteRecipe={onDeleteRecipe}
           onEditRecipe={onEditRecipe}
+          onAddToMealPlan={onAddToMealPlan}
         />
       ))}
     </ul>
