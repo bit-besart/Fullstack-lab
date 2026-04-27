@@ -4,7 +4,7 @@ body {
   color: #2f3e2f;
   background-color: #cfeea8;
   background-image:
-    radial-gradient(rgba(255, 255, 255, 0.30) 18%, transparent 19%),
+    radial-gradient(rgba(255, 255, 255, 0.3) 18%, transparent 19%),
     radial-gradient(rgba(170, 214, 109, 0.30) 12%, transparent 13%),
     radial-gradient(rgba(94, 165, 45, 0.22) 8%, transparent 9%),
     linear-gradient(to right, #5ea52d, #cfeea8 50%, #5ea52d);
@@ -88,19 +88,26 @@ textarea {
 }
 
 button {
-  padding: 0.8rem;
+  padding: 0.8rem 1rem;
   font-size: 1rem;
-  background: #5c8a52;
   color: white;
-  border: none;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #4f8f2f, #79c753);
+  border: 2px solid transparent;
+  border-radius: 10px;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: 
+    box-shadow 0.35s ease,
+    transform 0.2s ease,
+    border-color 0.35s ease;
 }
 
 button:hover {
-  background: #466b3e;
-  box-shadow: 0 0 14px rgb(247, 45, 45);
+  background: linear-gradient(135deg, #2f7d1f, #8ce85a, #46b72a);
+  border-color: #b6ff9a;
+  box-shadow:
+    0 0 0 3px rgba(120, 255, 140, 0.20),
+    0 0 18px rgba(72, 255, 84, 0.30);
+  transform: translateY(-2px) scale(1.03);
 }
 
 .search-wrapper {
@@ -208,13 +215,13 @@ form,
 
 form:hover,
 .meal-plan-card:hover {
-  box-shadow: 0 0 18px rgba(247, 45, 45);
+  box-shadow: 0 0 18px rgb(78, 193, 2);
   transform: translateY(-2px);
 }
 
 .search-input:hover,
 .search-input:focus {
-  box-shadow: 0 0 14px rgba(247, 45, 45);
+  box-shadow: 0 0 14px rgb(78, 193, 2);
   border-color: #e7a1a1;
   outline: none;
 }
