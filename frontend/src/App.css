@@ -1,8 +1,15 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  background: linear-gradient(to right, #5ea52d, #cfeea8 50%, #5ea52d);
   color: #2f3e2f;
+  background-color: #cfeea8;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.30) 18%, transparent 19%),
+    radial-gradient(rgba(170, 214, 109, 0.30) 12%, transparent 13%),
+    radial-gradient(rgba(94, 165, 45, 0.22) 8%, transparent 9%),
+    linear-gradient(to right, #5ea52d, #cfeea8 50%, #5ea52d);
+  background-size: 90px 90px, 60px 60px, 35px 35px, auto;
+  background-position: 0 0, 20px 20px, 10px 30px, center;
 }
 
 .app {
@@ -93,6 +100,7 @@ button {
 
 button:hover {
   background: #466b3e;
+  box-shadow: 0 0 14px rgb(247, 45, 45);
 }
 
 .search-wrapper {
@@ -190,4 +198,23 @@ button:hover {
 .meal-plan-card p {
   margin: 0.25rem 0;
   color: #2f3e2f;
+}
+
+form,
+.search-input,
+.meal-plan-card {
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+form:hover,
+.meal-plan-card:hover {
+  box-shadow: 0 0 18px rgba(247, 45, 45);
+  transform: translateY(-2px);
+}
+
+.search-input:hover,
+.search-input:focus {
+  box-shadow: 0 0 14px rgba(247, 45, 45);
+  border-color: #e7a1a1;
+  outline: none;
 }
