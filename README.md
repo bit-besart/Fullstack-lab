@@ -85,6 +85,10 @@ The application uses 3 collections:
 - `POST /api/mealplans`
 - `DELETE /api/mealplans/:id`
 
+### Users
+- `GET /api/users` - Get all users
+- `POST /api/users` - Create a new user
+
 ## Environment variables
 
 Create a `.env` file inside the `backend` folder and add:
