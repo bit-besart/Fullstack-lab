@@ -7,6 +7,7 @@ import mealPlanRoutes from './routes/mealPlanRoutes.js';
 import './models/User.js';
 import './models/Recipe.js';
 import './models/MealPlan.js';
+import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ app.use(cors());
 
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/mealplans', mealPlanRoutes);
-
+app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => {
   res.send('API is running...');
